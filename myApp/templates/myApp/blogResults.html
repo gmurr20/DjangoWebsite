@@ -1,0 +1,15 @@
+<div style="text-align:center;">
+    {% for blog in blogs %}
+        <a href="{% url 'blogArticle' %}{{ blog.0.id }}">
+        <div class="blog">
+            <div style="font-size:20px;text-decoration:underline;">{{ blog.0.title }}</div>
+            <div style="font-size:15px;">Author: {{ blog.0.author }}</div>
+            <div style="font-size:12px;">Date: {{ blog.0.date }}</div>
+            <p>{{ blog.0.description }}</p>
+            {% if blog.1 %}
+                <p>search count: {{ blog.1 }}</p>
+            {% endif %}
+        </div>
+        </a>
+    {% endfor %}
+</div>

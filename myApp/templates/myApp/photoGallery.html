@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width = device-width, initial-scale = 1">
+	<title>Greg Murray's Personal Website</title>
+
+	<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="/static/home.css">
+
+    <link rel="icon" href="/static/icon.png">
+
+
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.0.47/jquery.fancybox.min.css" />
+    <style>
+        #map {
+        height: 400px;
+        width: 60%;
+            margin: auto;
+            border: solid 2px black;
+       }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- my nav bar -->
+        <div class="row">
+            <div class="top hidden-xs">
+                <div class="navLeft"><a href="{% url 'home' %}">Gregory Murray</a></div>
+                <ul style="float:right; list-style-type:none;">
+                    <li class="nav-bar">
+                        <a href="{% url 'home' %}#work">Work</a>
+                    </li>
+                    <li class="nav-bar">
+                        <a href="{% url 'home' %}#project">Projects</a>
+                    </li>
+                    <li class="nav-bar">
+                        <a href="{% url 'photos' %}">Photos</a>
+                    </li>
+                    <li class="nav-bar">
+                        <a href="{% url 'blogPage' %}">Blog</a>
+                    </li>
+                    <li class="nav-bar ">
+                        <a href="{% url 'home' %}#contact">Contact</a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="hidden-lg hidden-md hidden-sm">
+                <!-- mobile nav bar -->
+                <div style="text-align: right">
+                    <div class="btn-group btn-group-lg mobile-top">
+                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span class="glyphicon glyphicon-align-justify" aria-hidden="true"></span>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <a class="dropdown-item" href="{% url 'home' %}">Home</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="{% url 'home' %}#work">Work</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="{% url 'home' %}#project">Projects</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="{% url 'photos' %}">Photos</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="{% url 'home' %}#contact">Contact</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="title" style="margin-top:85px;">My Photos</div>
+        <div id="map"></div>
+    {#    source: google maps api help#}
+        <script>
+          function initMap() {
+            var center = {lat: 49, lng: 12};
+            var map = new google.maps.Map(document.getElementById('map'), {
+              zoom: 3,
+              center: center
+            });
+              {% for photo in Photos %}
+                  var image = {
+                      url: '{{ photo.photoPath }}',
+                      scaledSize: new google.maps.Size(30, 30)
+                  };
+                  var pos = {lat: {{ photo.latitude }}, lng:{{ photo.longitude }}};
+                  var marker = new google.maps.Marker({
+                      position: pos,
+                      map: map,
+                      icon: image
+                  });
+                  marker.addListener('click', function() {
+                      window.location.href = "{% url 'photos' %}#images-{{ photo.index }}";
+                  });
+              {% endfor %}
+          }
+        </script>
+        <script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAj1uRkwL1knL68GHlgkbVRkTCRlAkgkRg&callback=initMap">
+        </script>
+
+        <!--Photos-->
+        <div style="text-align:center;">
+            {% for photo in Photos %}
+                <div class="photo">
+                    <a href="{{ photo.photoPath }}" data-fancybox="images" data-caption="{{ photo.title }}: {{ photo.description }}">
+                        <img src="{{ photo.photoPath }}"height="240px" width="360px"/>
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+{#   source: http://fancyapps.com/fancybox/3/#}
+    <script src="//code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.0.47/jquery.fancybox.min.js"></script>
+</body>
+</html>

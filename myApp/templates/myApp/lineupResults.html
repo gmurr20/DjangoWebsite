@@ -1,0 +1,29 @@
+<table style="margin:auto; text-align:center; margin-bottom:15px;">
+    <tr>
+        <th style="font-size:18px;">Position</th>
+        <th style="font-size:18px;">Name</th>
+        <th style="font-size:18px;">Salary</th>
+        <th style="font-size:18px;">Team</th>
+        <th style="font-size:18px;">Projected</th>
+    </tr>
+    {% for key, values in team.items %}
+        <tr>
+            <th>{{ key|upper }}</th>
+            <th>{{ values.0.name }}</th>
+            <th>{{ values.0.salary }}</th>
+            <th>{{ values.0.team }}</th>
+            <th>{{ values.0.projected }}</th>
+        </tr>
+    {% endfor %}
+    <tr>
+        <th>Totals</th>
+        <th></th>
+        <th><strong>{{ salaryTotal }}</strong></th>
+        <th></th>
+        <th><strong>{{ pointTotal }}</strong></th>
+    </tr>
+</table>
+
+<div style="margin:auto; text-align:center; ">
+    <img style="border: 2px solid black;" src="/static/graphs/myPlot.png"/>
+</div>
